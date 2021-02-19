@@ -29,7 +29,7 @@ public class QuartzJobBeanAgentRule extends AgentRule {
     @Override
     public AgentBuilder buildAgentChainedGlobal1(final AgentBuilder builder) {
         return builder
-                .type(named("org.springframework.scheduling.quartz.QuartzJobBean"))
+                .type(hasSuperType(named("org.quartz.Job").and(not(isInterface())).and(not(isAbstract()))))
                 .transform(new Transformer() {
                     @Override
                     public Builder<?> transform(final Builder<?> builder, final TypeDescription typeDescription, final ClassLoader classLoader, final JavaModule module) {
@@ -39,9 +39,9 @@ public class QuartzJobBeanAgentRule extends AgentRule {
     }
 
     @Advice.OnMethodEnter
-    public static void enter(final @ClassName String className, final @Advice.Origin String origin, final @Advice.This Object thiz, final @Advice.Argument(value = 0) Object arg) {
+    public static void enter(final @ClassName String className, final @Advice.Origin String origin, final @Advice.This Object thiz) {
         if (isAllowed(className, origin))
-            QuartzjobAgentIntercept.enter(thiz, arg);
+            QuartzjobAgentIntercept.enter(thiz);
     }
 
     @Advice.OnMethodExit(onThrowable = Throwable.class)

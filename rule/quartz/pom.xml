@@ -23,23 +23,11 @@
     <artifactId>rule</artifactId>
     <version>1.7.5-SNAPSHOT</version>
   </parent>
-  <artifactId>quartz-2.2</artifactId>
-  <name>SpecialAgent Rule for quartz 2.2</name>
+  <artifactId>quartz</artifactId>
+  <name>SpecialAgent Rule for quartz</name>
   <properties>
-    <sa.rule.name>quartz:2.2</sa.rule.name>
-    <min.version>2.2.x</min.version>
-    <passCompatibility>org.quartz-scheduler:quartz:2.2.2</passCompatibility>
+    <sa.rule.name>quartz</sa.rule.name>
+    <min.version>1.8.0</min.version>
+    <passCompatibility>org.quartz-scheduler:quartz:1.8.0</passCompatibility>
   </properties>
-  <dependencies>
-    <dependency>
-      <groupId>org.quartz-scheduler</groupId>
-      <artifactId>quartz</artifactId>
-      <version>2.2.2</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-context-support</artifactId>
-      <version>4.3.9.RELEASE</version>
-    </dependency>
-  </dependencies>
 </project>
