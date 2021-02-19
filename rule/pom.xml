@@ -95,6 +95,7 @@
         <module>netty</module>
         <module>pulsar-client</module>
         <module>pulsar-functions</module>
+        <module>quartz-2.2</module>
         <module>dynamic</module>
         <module>cxf</module>
       </modules>
