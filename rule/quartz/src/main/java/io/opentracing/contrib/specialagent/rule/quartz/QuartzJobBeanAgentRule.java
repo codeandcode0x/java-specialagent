@@ -29,11 +29,12 @@ public class QuartzJobBeanAgentRule extends AgentRule {
     @Override
     public AgentBuilder buildAgentChainedGlobal1(final AgentBuilder builder) {
         return builder
-                .type(hasSuperType(named("org.quartz.Job").and(not(isInterface())).and(not(isAbstract()))))
+//                .type(named("net.coding.infra.cci.scheduler.CiTaskQueuingChecker"))
+                .type(hasSuperType(named("org.quartz.Job")).and(not(isInterface())))
                 .transform(new Transformer() {
                     @Override
                     public Builder<?> transform(final Builder<?> builder, final TypeDescription typeDescription, final ClassLoader classLoader, final JavaModule module) {
-                        return builder.visit(advice(typeDescription).to(QuartzJobBeanAgentRule.class).on(named("execute")));
+                        return builder.visit(advice(typeDescription).to(QuartzJobBeanAgentRule.class).on(named("executeInternal")));
                     }
                 });
     }
@@ -46,7 +47,7 @@ public class QuartzJobBeanAgentRule extends AgentRule {
 
     @Advice.OnMethodExit(onThrowable = Throwable.class)
     public static void exit(final @ClassName String className, final @Advice.Origin String origin, final @Advice.Thrown Throwable thrown) {
-        if (isAllowed(className, origin)) ;
-        QuartzjobAgentIntercept.exit(thrown);
+        if (isAllowed(className, origin))
+           QuartzjobAgentIntercept.exit(thrown);
     }
 }
