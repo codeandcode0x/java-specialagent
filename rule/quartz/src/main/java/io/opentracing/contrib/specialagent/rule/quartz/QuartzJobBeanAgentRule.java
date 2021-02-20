@@ -40,14 +40,14 @@ public class QuartzJobBeanAgentRule extends AgentRule {
     }
 
     @Advice.OnMethodEnter
-    public static void enter(final @ClassName String className, final @Advice.Origin String origin, final @Advice.This Object thiz) {
+    public static void enter(final @ClassName String className, final @Advice.Origin String origin, final @Advice.This Object thiz, final @Advice.Argument(value = 0) Object arg) {
         if (isAllowed(className, origin))
-            QuartzjobAgentIntercept.enter(thiz);
+            QuartzjobAgentIntercept.enter(thiz, arg);
     }
 
     @Advice.OnMethodExit(onThrowable = Throwable.class)
     public static void exit(final @ClassName String className, final @Advice.Origin String origin, final @Advice.Thrown Throwable thrown) {
         if (isAllowed(className, origin))
-           QuartzjobAgentIntercept.exit(thrown);
+            QuartzjobAgentIntercept.exit(thrown);
     }
 }

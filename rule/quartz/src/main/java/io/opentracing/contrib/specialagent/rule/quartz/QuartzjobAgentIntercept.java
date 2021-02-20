@@ -20,16 +20,22 @@ import io.opentracing.contrib.specialagent.LocalSpanContext;
 import io.opentracing.contrib.specialagent.OpenTracingApiUtil;
 import io.opentracing.tag.Tags;
 import io.opentracing.util.GlobalTracer;
+import org.quartz.JobExecutionContext;
 
 public class QuartzjobAgentIntercept {
   static final String COMPONENT_NAME = "quartz-job";
 
-  public static void enter(final Object thiz) {
+  public static void enter(final Object thiz, final Object args) {
+
+    JobExecutionContext jobExecutionContext = (JobExecutionContext)args;
+
     final Tracer tracer = GlobalTracer.get();
     final Span span = tracer
-            .buildSpan(thiz.getClass().getName())
+            .buildSpan("quartz:" + jobExecutionContext.getJobDetail().getKey().getName())
             .withTag(Tags.COMPONENT.getKey(), COMPONENT_NAME)
             .withTag("class", thiz.getClass().getName())
+            .withTag("name", jobExecutionContext.getJobDetail().getKey().getName())
+            .withTag("group", jobExecutionContext.getJobDetail().getKey().getGroup())
             .start();
 
     final Scope scope = tracer.activateSpan(span);

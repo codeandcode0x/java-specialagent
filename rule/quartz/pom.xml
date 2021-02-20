@@ -27,7 +27,16 @@
   <name>SpecialAgent Rule for quartz</name>
   <properties>
     <sa.rule.name>quartz</sa.rule.name>
-    <min.version>1.8.0</min.version>
-    <passCompatibility>org.quartz-scheduler:quartz:1.8.0</passCompatibility>
+    <min.version>2.0.0</min.version>
+    <passCompatibility>org.quartz-scheduler:quartz:2.0.0</passCompatibility>
   </properties>
+  <dependencies>
+    <dependency>
+      <groupId>org.quartz-scheduler</groupId>
+      <artifactId>quartz</artifactId>
+      <version>${min.version}</version>
+      <optional>true</optional>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
 </project>
