@@ -19,21 +19,20 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.squareup.okhttp.Interceptor;
 import io.opentracing.util.GlobalTracer;
-import org.omg.PortableInterceptor.Interceptor;
 
-public class OkHttp2AgentIntercept {
+public class OkHttp2AgentIntercept  {
   @SuppressWarnings("unchecked")
   public static Object exit(final Object returned) {
-//    final List<Interceptor> interceptors = (List<Interceptor>)returned;
-//    for (final Interceptor interceptor : interceptors)
-//      if (interceptor instanceof TracingInterceptor)
-//        return returned;
-//
-//    final ArrayList<Interceptor> newInterceptors = new ArrayList<>(interceptors);
-//    final TracingInterceptor interceptor = new TracingInterceptor(GlobalTracer.get(), Collections.singletonList(OkHttpClientSpanDecorator.STANDARD_TAGS));
-//    newInterceptors.add(0, interceptor);
-//    return newInterceptors;
-    return returned;
+    final List<Interceptor> interceptors = (List<Interceptor>)returned;
+    for (final Interceptor interceptor : interceptors)
+      if (interceptor instanceof TracingInterceptor)
+        return returned;
+
+    final ArrayList<Interceptor> newInterceptors = new ArrayList<>(interceptors);
+    final TracingInterceptor interceptor = new TracingInterceptor(GlobalTracer.get(), Collections.singletonList(OkHttpClientSpanDecorator.STANDARD_TAGS));
+    newInterceptors.add(0, interceptor);
+    return newInterceptors;
   }
 }

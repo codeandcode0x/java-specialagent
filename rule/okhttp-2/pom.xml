@@ -27,7 +27,7 @@
   <name>SpecialAgent Rule for OkHttp2</name>
   <properties>
     <sa.rule.name>okhttp2</sa.rule.name>
-    <min.version>2.1.0</min.version>
+    <min.version>2.2.0</min.version>
     <passCompatibility>com.squareup.okhttp:okhttp:[${min.version},3.0.0)</passCompatibility>
   </properties>
   <dependencies>
@@ -38,12 +38,5 @@
       <optional>true</optional>
       <scope>provided</scope>
     </dependency>
-<!--    <dependency>-->
-<!--      <groupId>com.squareup.okhttp3</groupId>-->
-<!--      <artifactId>mockwebserver</artifactId>-->
-<!--      <version>${min.version}</version>-->
-<!--      <optional>true</optional>-->
-<!--      <scope>test</scope>-->
-<!--    </dependency>-->
   </dependencies>
 </project>
