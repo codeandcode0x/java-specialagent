@@ -29,12 +29,11 @@ public class QuartzJobBeanAgentRule extends AgentRule {
     @Override
     public AgentBuilder buildAgentChainedGlobal1(final AgentBuilder builder) {
         return builder
-//                .type(named("net.coding.infra.cci.scheduler.CiTaskQueuingChecker"))
                 .type(hasSuperType(named("org.quartz.Job")).and(not(isInterface())))
                 .transform(new Transformer() {
                     @Override
                     public Builder<?> transform(final Builder<?> builder, final TypeDescription typeDescription, final ClassLoader classLoader, final JavaModule module) {
-                        return builder.visit(advice(typeDescription).to(QuartzJobBeanAgentRule.class).on(named("executeInternal")));
+                        return builder.visit(advice(typeDescription).to(QuartzJobBeanAgentRule.class).on(named("execute")));
                     }
                 });
     }
