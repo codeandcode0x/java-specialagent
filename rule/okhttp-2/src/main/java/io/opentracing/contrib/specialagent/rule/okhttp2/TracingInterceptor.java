@@ -33,8 +33,7 @@ public class TracingInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         Response response = null;
         if (chain.connection() == null) {
-            log.info(">>>>>>> TracingInterceptor.intercept with chain.connection");
-            Span span = this.tracer.buildSpan(chain.request().method()).withTag(Tags.COMPONENT.getKey(), "okhttp").start();
+            Span span = this.tracer.buildSpan(chain.request().method()).withTag(Tags.COMPONENT.getKey(), "okhttp2").start();
 
             Request.Builder requestBuilder = chain.request().newBuilder();
             Object tag = chain.request().tag();
@@ -57,7 +56,6 @@ public class TracingInterceptor implements Interceptor {
                 span.finish();
             }
         } else {
-            log.info(">>>>>>> TracingInterceptor.intercept without chain.connection");
             Object tag = chain.request().tag();
             if (tag instanceof TagWrapper) {
                 TagWrapper tagWrapper = (TagWrapper)tag;
