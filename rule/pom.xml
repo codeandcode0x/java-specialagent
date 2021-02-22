@@ -64,6 +64,7 @@
         <module>asynchttpclient</module>
         <module>rabbitmq-client</module>
         <module>spring-rabbitmq</module>
+        <module>spring-rabbitmq-1.6.x</module>
         <module>thrift</module>
         <module>grpc</module>
         <module>jedis</module>
