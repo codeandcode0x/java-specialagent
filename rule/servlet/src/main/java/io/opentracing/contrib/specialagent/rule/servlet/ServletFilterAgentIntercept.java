@@ -27,17 +27,17 @@ import javax.servlet.ServletException;
 
 import io.opentracing.contrib.specialagent.Logger;
 import io.opentracing.contrib.specialagent.rule.servlet.ext.TracingProxyFilter;
-import io.opentracing.contrib.web.servlet.filter.TracingFilter;
+import io.opentracing.contrib.web.servlet.filter.CodingTracingFilter;
 import io.opentracing.util.GlobalTracer;
 
 public abstract class ServletFilterAgentIntercept {
   public static final Logger logger = Logger.getLogger(ServletAgentIntercept.class);
   public static final Map<Object,ServletContext> filterOrServletToServletContext = new HashMap<>();
-  public static final Map<ServletContext,TracingFilter> servletContextToFilter = new ConcurrentHashMap<>();
+  public static final Map<ServletContext,CodingTracingFilter> servletContextToFilter = new ConcurrentHashMap<>();
 
-  public static TracingFilter getFilter(final ServletContext context, final boolean proxy) throws ServletException {
+  public static CodingTracingFilter getFilter(final ServletContext context, final boolean proxy) throws ServletException {
     Objects.requireNonNull(context);
-    TracingFilter filter = servletContextToFilter.get(context);
+    CodingTracingFilter filter = servletContextToFilter.get(context);
     if (filter != null)
       return filter;
 
@@ -46,7 +46,7 @@ public abstract class ServletFilterAgentIntercept {
       if (filter != null)
         return filter;
 
-      servletContextToFilter.put(context, filter = proxy ? new TracingProxyFilter(GlobalTracer.get(), context) : new TracingFilter(GlobalTracer.get(), Configuration.spanDecorators, Configuration.skipPattern));
+      servletContextToFilter.put(context, filter = proxy ? new TracingProxyFilter(GlobalTracer.get(), context) : new CodingTracingFilter(GlobalTracer.get(), Configuration.spanDecorators, Configuration.skipPattern));
       return filter;
     }
   }

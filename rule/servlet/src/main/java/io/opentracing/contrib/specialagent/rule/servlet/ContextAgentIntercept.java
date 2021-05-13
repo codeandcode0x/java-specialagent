@@ -26,7 +26,7 @@ import io.opentracing.contrib.specialagent.AgentRuleUtil;
 import io.opentracing.contrib.specialagent.Level;
 import io.opentracing.contrib.specialagent.Logger;
 import io.opentracing.contrib.specialagent.rule.servlet.ext.TracingProxyFilter;
-import io.opentracing.contrib.web.servlet.filter.TracingFilter;
+import io.opentracing.contrib.web.servlet.filter.CodingTracingFilter;
 
 public abstract class ContextAgentIntercept extends ServletFilterAgentIntercept {
   public static final Logger logger = Logger.getLogger(ContextAgentIntercept.class);
@@ -50,7 +50,7 @@ public abstract class ContextAgentIntercept extends ServletFilterAgentIntercept 
       return null;
     }
 
-    final TracingFilter tracingFilter = getFilter(context, false);
+    final CodingTracingFilter tracingFilter = getFilter(context, false);
     // If the tracingFilter instance is a TracingProxyFilter, then it was
     // created with ServletFilterAgentIntercept#getProxyFilter. This should
     // never happen, because ServletContext#addFilter happens first in the

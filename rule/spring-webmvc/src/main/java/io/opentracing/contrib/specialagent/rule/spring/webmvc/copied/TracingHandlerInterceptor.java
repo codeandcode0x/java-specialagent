@@ -30,15 +30,15 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 /**
  * Tracing handler interceptor for spring web. It creates a new span for an incoming request
  * if there is no active request and a separate span for Spring's exception handling.
- * This handler depends on {@link TracingFilter}. Both classes have to be properly configured.
+ * This handler depends on {@link CodingTracingFilter}. Both classes have to be properly configured.
  *
- * <p>HTTP tags and logged errors are added in {@link TracingFilter}. This interceptor adds only
+ * <p>HTTP tags and logged errors are added in {@link CodingTracingFilter}. This interceptor adds only
  * spring related logs (handler class/method).
  *
  * @author Pavol Loffay
  */
 public class TracingHandlerInterceptor extends HandlerInterceptorAdapter {
-  public static final String SERVER_SPAN_CONTEXT = "io.opentracing.contrib.web.servlet.filter.TracingFilter.activeSpanContext";
+  public static final String SERVER_SPAN_CONTEXT = "io.opentracing.contrib.web.servlet.filter.CodingTracingFilter.activeSpanContext";
 
   private static final String SCOPE_STACK = TracingHandlerInterceptor.class.getName() + ".scopeStack";
   private static final String CONTINUATION_FROM_ASYNC_STARTED = TracingHandlerInterceptor.class.getName() + ".continuation";

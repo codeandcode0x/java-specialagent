@@ -23,9 +23,9 @@ import javax.servlet.ServletException;
 
 import io.opentracing.Tracer;
 import io.opentracing.contrib.specialagent.rule.servlet.Configuration;
-import io.opentracing.contrib.web.servlet.filter.TracingFilter;
+import io.opentracing.contrib.web.servlet.filter.CodingTracingFilter;
 
-public class TracingProxyFilter extends TracingFilter implements FilterConfig {
+public class TracingProxyFilter extends CodingTracingFilter implements FilterConfig {
   private final ServletContext context;
 
   public TracingProxyFilter(final Tracer tracer, final ServletContext context) throws ServletException {

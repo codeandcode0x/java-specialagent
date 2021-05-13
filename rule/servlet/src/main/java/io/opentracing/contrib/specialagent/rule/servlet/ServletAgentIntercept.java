@@ -31,7 +31,7 @@ import io.opentracing.contrib.specialagent.LocalSpanContext;
 import io.opentracing.contrib.specialagent.rule.servlet.ext.TracingFilterUtil;
 import io.opentracing.contrib.specialagent.rule.servlet.ext.TracingProxyFilter;
 import io.opentracing.contrib.web.servlet.filter.ServletFilterSpanDecorator;
-import io.opentracing.contrib.web.servlet.filter.TracingFilter;
+import io.opentracing.contrib.web.servlet.filter.CodingTracingFilter;
 import io.opentracing.util.GlobalTracer;
 
 public class ServletAgentIntercept extends ServletFilterAgentIntercept {
@@ -60,7 +60,7 @@ public class ServletAgentIntercept extends ServletFilterAgentIntercept {
       if (context == null)
         return;
 
-      final TracingFilter tracingFilter = getFilter(context, true);
+      final CodingTracingFilter tracingFilter = getFilter(context, true);
 
       // If the tracingFilter instance is not a TracingProxyFilter, then it was
       // created with ServletContext#addFilter. Therefore, the intercept of the
@@ -71,7 +71,7 @@ public class ServletAgentIntercept extends ServletFilterAgentIntercept {
       // If `servletRequestToState` contains the request key, then this request
       // has been handled by doFilter
       final HttpServletRequest request = (HttpServletRequest)req;
-      if (request.getAttribute(TracingFilter.SERVER_SPAN_CONTEXT) != null)
+      if (request.getAttribute(CodingTracingFilter.SERVER_SPAN_CONTEXT) != null)
         return;
 
       if (LocalSpanContext.get(COMPONENT_NAME) != null)

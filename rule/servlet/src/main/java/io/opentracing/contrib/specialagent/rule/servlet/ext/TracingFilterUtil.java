@@ -15,7 +15,7 @@
 
 package io.opentracing.contrib.specialagent.rule.servlet.ext;
 
-import static io.opentracing.contrib.web.servlet.filter.TracingFilter.*;
+import static io.opentracing.contrib.web.servlet.filter.CodingTracingFilter.*;
 
 import java.util.List;
 

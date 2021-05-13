@@ -53,7 +53,7 @@ import io.opentracing.util.GlobalTracer;
  *
  * <pre>
  * {@code
-  * TracingFilter filter = new TracingFilter(tracer);
+  * CodingTracingFilter filter = new CodingTracingFilter(tracer);
  *  servletContext.addFilter("tracingFilter", filter);
   * }
  * </pre>
@@ -62,31 +62,31 @@ import io.opentracing.util.GlobalTracer;
  * <pre>
  * {@code
  *  GlobalTracer.register(tracer);
- *  servletContext.setAttribute({@link TracingFilter#SPAN_DECORATORS}, listOfDecorators); // optional, if no present ServletFilterSpanDecorator.STANDARD_TAGS is applied
+ *  servletContext.setAttribute({@link CodingTracingFilter#SPAN_DECORATORS}, listOfDecorators); // optional, if no present ServletFilterSpanDecorator.STANDARD_TAGS is applied
  * }
  * </pre>
  *
  * Current server span context is accessible via {@link HttpServletRequest#getAttribute(String)} with name
- * {@link TracingFilter#SERVER_SPAN_CONTEXT}.
+ * {@link CodingTracingFilter#SERVER_SPAN_CONTEXT}.
  *
  * @author Pavol Loffay
  */
-public class TracingFilter implements Filter {
-    private static final Logger log = Logger.getLogger(TracingFilter.class.getName());
+public class CodingTracingFilter implements Filter {
+    private static final Logger log = Logger.getLogger(CodingTracingFilter.class.getName());
 
     /**
      * Use as a key of {@link ServletContext#setAttribute(String, Object)} to set span decorators
      */
-    public static final String SPAN_DECORATORS = TracingFilter.class.getName() + ".spanDecorators";
+    public static final String SPAN_DECORATORS = CodingTracingFilter.class.getName() + ".spanDecorators";
     /**
      * Use as a key of {@link ServletContext#setAttribute(String, Object)} to skip pattern
      */
-    public static final String SKIP_PATTERN = TracingFilter.class.getName() + ".skipPattern";
+    public static final String SKIP_PATTERN = CodingTracingFilter.class.getName() + ".skipPattern";
 
     /**
      * Used as a key of {@link HttpServletRequest#setAttribute(String, Object)} to inject server span context
      */
-    public static final String SERVER_SPAN_CONTEXT = TracingFilter.class.getName() + ".activeSpanContext";
+    public static final String SERVER_SPAN_CONTEXT = CodingTracingFilter.class.getName() + ".activeSpanContext";
 
     private FilterConfig filterConfig;
 
@@ -97,14 +97,14 @@ public class TracingFilter implements Filter {
     /**
      * Tracer instance has to be registered with {@link GlobalTracer#register(Tracer)}.
      */
-    public TracingFilter() {
+    public CodingTracingFilter() {
         this(GlobalTracer.get());
     }
 
     /**
      * @param tracer
      */
-    public TracingFilter(Tracer tracer) {
+    public CodingTracingFilter(Tracer tracer) {
         this(tracer, Collections.singletonList(ServletFilterSpanDecorator.STANDARD_TAGS), null);
     }
 
@@ -114,7 +114,7 @@ public class TracingFilter implements Filter {
      * @param spanDecorators decorators
      * @param skipPattern null or pattern to exclude certain paths from tracing e.g. "/health"
      */
-    public TracingFilter(Tracer tracer, List<ServletFilterSpanDecorator> spanDecorators, Pattern skipPattern) {
+    public CodingTracingFilter(Tracer tracer, List<ServletFilterSpanDecorator> spanDecorators, Pattern skipPattern) {
         this.tracer = tracer;
         this.spanDecorators = new ArrayList<>(spanDecorators);
         this.spanDecorators.removeAll(Collections.singleton(null));

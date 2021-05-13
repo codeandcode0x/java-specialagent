@@ -33,7 +33,7 @@ import io.opentracing.contrib.specialagent.AgentRuleUtil;
 import io.opentracing.contrib.specialagent.EarlyReturnException;
 import io.opentracing.contrib.specialagent.Level;
 import io.opentracing.contrib.specialagent.rule.servlet.ext.TracingProxyFilter;
-import io.opentracing.contrib.web.servlet.filter.TracingFilter;
+import io.opentracing.contrib.web.servlet.filter.CodingTracingFilter;
 import io.opentracing.util.GlobalTracer;
 
 public class FilterAgentIntercept extends ServletFilterAgentIntercept {
@@ -45,12 +45,12 @@ public class FilterAgentIntercept extends ServletFilterAgentIntercept {
   }
 
   public static void doFilter(final Object thiz, final Object req, final Object res, final Object chain) {
-    // `thiz` should never be `TracingFilter`, but issue #391 suggests otherwise
-    if (thiz instanceof TracingFilter)
+    // `thiz` should never be `CodingTracingFilter`, but issue #391 suggests otherwise
+    if (thiz instanceof CodingTracingFilter)
       return;
 
     final ServletRequest request = (ServletRequest)req;
-    if (request.getAttribute(TracingFilter.SERVER_SPAN_CONTEXT) != null)
+    if (request.getAttribute(CodingTracingFilter.SERVER_SPAN_CONTEXT) != null)
       return;
 
     try {
@@ -59,7 +59,7 @@ public class FilterAgentIntercept extends ServletFilterAgentIntercept {
       if (!ContextAgentIntercept.invoke(context, request, getMethod(request.getClass(), "getServletContext")) || context[0] == null)
         context[0] = filterOrServletToServletContext.get(filter);
 
-      final TracingFilter tracingFilter = context[0] != null ? getFilter(context[0], true) : new TracingProxyFilter(GlobalTracer.get(), null);
+      final CodingTracingFilter tracingFilter = context[0] != null ? getFilter(context[0], true) : new TracingProxyFilter(GlobalTracer.get(), null);
 
       // If the tracingFilter instance is not a TracingProxyFilter, then it was
       // created with ServletContext#addFilter. Therefore, the intercept of the
@@ -68,14 +68,14 @@ public class FilterAgentIntercept extends ServletFilterAgentIntercept {
         return;
 
       if (logger.isLoggable(Level.FINER))
-        logger.finer(">> TracingFilter.doFilter(" + AgentRuleUtil.getSimpleNameId(request) + "," + AgentRuleUtil.getSimpleNameId(res) + "," + AgentRuleUtil.getSimpleNameId(context[0]) + ")");
+        logger.finer(">> CodingTracingFilter.doFilter(" + AgentRuleUtil.getSimpleNameId(request) + "," + AgentRuleUtil.getSimpleNameId(res) + "," + AgentRuleUtil.getSimpleNameId(context[0]) + ")");
 
       tracingFilter.doFilter(request, (ServletResponse)res, new FilterChain() {
         @Override
         public void doFilter(final ServletRequest request, final ServletResponse response) throws IOException, ServletException {
           filter.doFilter(request, response, (FilterChain)chain);
           if (logger.isLoggable(Level.FINER))
-            logger.finer("<< TracingFilter.doFilter(" + AgentRuleUtil.getSimpleNameId(request) + "," + AgentRuleUtil.getSimpleNameId(response) + "," + AgentRuleUtil.getSimpleNameId(context[0]) + ")");
+            logger.finer("<< CodingTracingFilter.doFilter(" + AgentRuleUtil.getSimpleNameId(request) + "," + AgentRuleUtil.getSimpleNameId(response) + "," + AgentRuleUtil.getSimpleNameId(context[0]) + ")");
         }
       });
     }

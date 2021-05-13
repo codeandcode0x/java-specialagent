@@ -51,7 +51,7 @@ public class FilterAgentRule extends AgentRule {
             .visit(advice(typeDescription).to(ResetAdvice.class).on(named("reset")))
             .visit(advice(typeDescription).to(SendRedirectAdvice.class).on(named("sendRedirect").and(takesArguments(1)).and(takesArgument(0, String.class))));
         }})
-      .type(not(isInterface()).and(hasSuperType(named("javax.servlet.Filter")).and(not(named("io.opentracing.contrib.web.servlet.filter.TracingFilter")))))
+      .type(not(isInterface()).and(hasSuperType(named("javax.servlet.Filter")).and(not(named("io.opentracing.contrib.web.servlet.filter.CodingTracingFilter")))))
       .transform(new Transformer() {
         @Override
         public Builder<?> transform(final Builder<?> builder, final TypeDescription typeDescription, final ClassLoader classLoader, final JavaModule module) {
@@ -64,7 +64,7 @@ public class FilterAgentRule extends AgentRule {
   @Override
   public AgentBuilder buildAgentChainedGlobal2(final AgentBuilder builder) {
     return builder
-      .type(not(isInterface()).and(hasSuperType(named("javax.servlet.Filter")).and(not(named("io.opentracing.contrib.web.servlet.filter.TracingFilter")))))
+      .type(not(isInterface()).and(hasSuperType(named("javax.servlet.Filter")).and(not(named("io.opentracing.contrib.web.servlet.filter.CodingTracingFilter")))))
       .transform(new Transformer() {
         @Override
         public Builder<?> transform(final Builder<?> builder, final TypeDescription typeDescription, final ClassLoader classLoader, final JavaModule module) {
